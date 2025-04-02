@@ -1,11 +1,11 @@
 import React, { useState, KeyboardEvent } from 'react';
 
-type UserInputProps = {
+type ChatInputProps = {
   onSendMessage: (message: string) => void;
   disabled?: boolean;
 };
 
-const UserInput: React.FC<UserInputProps> = ({ onSendMessage, disabled = false }) => {
+const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = false }) => {
   const [message, setMessage] = useState<string>('');
 
   const handleSend = () => {
@@ -62,4 +62,4 @@ const UserInput: React.FC<UserInputProps> = ({ onSendMessage, disabled = false }
   );
 };
 
-export default UserInput; 
+export default ChatInput; 
