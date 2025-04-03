@@ -8,7 +8,6 @@ export default function Home() {
   const [eventId, setEventId] = useState('demo-event-123');
   const [showChat, setShowChat] = useState(true);
   const [feedbackComplete, setFeedbackComplete] = useState(false);
-  const apiKey = process.env.OPENAI_API_KEY;
 
   const handleFeedbackComplete = () => {
     setFeedbackComplete(true);
@@ -16,9 +15,9 @@ export default function Home() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
-      {/* Header info about AI model */}
+      {/* Header info */}
       <div className="bg-emerald-600 text-white px-4 py-2 text-center text-sm">
-        Made with ❤️ by <a href="https://www.linkedin.com/in/therayyanawaz/" target="_blank" rel="noopener noreferrer">Md Rayyan Nawaz</a>
+        Made with ❤️ by <a href="https://www.linkedin.com/in/therayyanawaz/" target="_blank" rel="noopener noreferrer" className="underline">Md Rayyan Nawaz</a>
       </div>
 
       {/* Chat interface */}

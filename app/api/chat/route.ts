@@ -4,7 +4,7 @@ import {
   rateLimitedGenerateChatResponse as generateChatResponse, 
   rateLimitedAnalyzeSentiment as analyzeSentiment,
   ChatMessage 
-} from '../../utils/nvidiaNlp';
+} from '../../utils/groqApi';
 import connectToDatabase, { isDatabaseConnected } from '../../utils/database';
 import Feedback, { IFeedback } from '../../models/feedback.schema';
 import Event from '../../models/event.schema';
