@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Message from './Message';
 import ChatInput from './ChatInput';
+import SettingsModal from './SettingsModal';
+import HelpModal from './HelpModal';
 
 type MessageType = {
   id: string;
@@ -22,6 +24,8 @@ const Chat: React.FC<ChatProps> = ({ eventId, onFeedbackComplete }) => {
   const [isInitializing, setIsInitializing] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+  const [isHelpOpen, setIsHelpOpen] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Initial greeting message when component mounts
@@ -57,6 +61,35 @@ const Chat: React.FC<ChatProps> = ({ eventId, onFeedbackComplete }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  // Use the settings effect
+  useEffect(() => {
+    // Apply settings when component mounts
+    const settings = getSettings();
+    
+    // Apply dark mode setting
+    if (settings.darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  // At the top of the file, add this function to get settings
+  const getSettings = () => {
+    if (typeof window === 'undefined') return { darkMode: false, soundEnabled: true, language: 'en' };
+    
+    try {
+      const settings = localStorage.getItem('eventFeedbackSettings');
+      if (settings) {
+        return JSON.parse(settings);
+      }
+    } catch (error) {
+      console.error('Error parsing settings:', error);
+    }
+    
+    return { darkMode: false, soundEnabled: true, language: 'en' };
+  };
+
   // Send message to backend API
   const processMessage = async (userMessage: string) => {
     try {
@@ -72,6 +105,14 @@ const Chat: React.FC<ChatProps> = ({ eventId, onFeedbackComplete }) => {
       
       setMessages(prevMessages => [...prevMessages, newUserMessage]);
       setIsTyping(true);
+      
+      // Play send sound if enabled
+      const { soundEnabled } = getSettings();
+      if (soundEnabled) {
+        const audio = new Audio('/sounds/message-sent.mp3');
+        audio.volume = 0.5;
+        audio.play().catch(e => console.log('Error playing sound:', e));
+      }
       
       // Try main API first, fallback to in-memory version if it fails
       let responseData;
@@ -149,6 +190,13 @@ const Chat: React.FC<ChatProps> = ({ eventId, onFeedbackComplete }) => {
       setMessages(prevMessages => [...prevMessages, botResponse]);
       setIsTyping(false);
       
+      // Play received sound if enabled
+      if (soundEnabled) {
+        const audio = new Audio('/sounds/message-received.mp3');
+        audio.volume = 0.5;
+        audio.play().catch(e => console.log('Error playing sound:', e));
+      }
+      
       // Check if feedback session is complete
       if (responseData.isComplete && onFeedbackComplete) {
         onFeedbackComplete();
@@ -186,10 +234,26 @@ const Chat: React.FC<ChatProps> = ({ eventId, onFeedbackComplete }) => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const openSettings = () => {
+    setIsSettingsOpen(true);
+  };
+
+  const closeSettings = () => {
+    setIsSettingsOpen(false);
+  };
+
+  const openHelp = () => {
+    setIsHelpOpen(true);
+  };
+
+  const closeHelp = () => {
+    setIsHelpOpen(false);
+  };
+
   return (
-    <div className="flex h-full bg-gray-50">
+    <div className="flex h-full bg-gray-50 dark:bg-gray-900">
       {/* Sidebar */}
-      <div className={`bg-gray-900 ${isSidebarOpen ? 'w-64' : 'w-0'} transition-all duration-300 overflow-hidden flex flex-col h-full`}>
+      <div className={`bg-gray-900 dark:bg-black ${isSidebarOpen ? 'w-64' : 'w-0'} transition-all duration-300 overflow-hidden flex flex-col h-full`}>
         <div className="p-4 text-white border-b border-gray-700">
           <h3 className="text-lg font-bold">Event Feedback</h3>
           <p className="text-sm text-gray-400">Share your thoughts with us</p>
@@ -220,14 +284,20 @@ const Chat: React.FC<ChatProps> = ({ eventId, onFeedbackComplete }) => {
         </div>
         
         <div className="p-4 border-t border-gray-700">
-          <div className="flex items-center space-x-2 text-sm p-2 rounded-md hover:bg-gray-800 text-white cursor-pointer">
+          <div 
+            className="flex items-center space-x-2 text-sm p-2 rounded-md hover:bg-gray-800 text-white cursor-pointer"
+            onClick={openSettings}
+          >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
             <span>Settings</span>
           </div>
-          <div className="flex items-center space-x-2 text-sm p-2 rounded-md hover:bg-gray-800 text-white cursor-pointer">
+          <div 
+            className="flex items-center space-x-2 text-sm p-2 rounded-md hover:bg-gray-800 text-white cursor-pointer"
+            onClick={openHelp}
+          >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
@@ -239,20 +309,20 @@ const Chat: React.FC<ChatProps> = ({ eventId, onFeedbackComplete }) => {
       {/* Main chat area */}
       <div className="flex-1 flex flex-col h-full">
         {/* Header */}
-        <div className="bg-white shadow-sm p-4 flex items-center">
+        <div className="bg-white dark:bg-gray-800 shadow-sm p-4 flex items-center">
           <button 
             onClick={toggleSidebar}
-            className="mr-4 text-gray-600 hover:text-gray-800"
+            className="mr-4 text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
-          <h3 className="text-lg font-semibold text-gray-800">Event Feedback Assistant</h3>
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Event Feedback Assistant</h3>
         </div>
         
         {/* Messages */}
-        <div className="flex-1 p-4 overflow-y-auto bg-white">
+        <div className="flex-1 p-4 overflow-y-auto bg-white dark:bg-gray-800">
           {isInitializing ? (
             <div className="flex flex-col items-center justify-center h-full">
               <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-gray-500 mb-4"></div>
@@ -297,10 +367,14 @@ const Chat: React.FC<ChatProps> = ({ eventId, onFeedbackComplete }) => {
         </div>
         
         {/* Input */}
-        <div className="p-4 border-t bg-white">
+        <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
           <ChatInput onSendMessage={processMessage} disabled={isTyping || isInitializing} />
         </div>
       </div>
+
+      {/* Modals */}
+      <SettingsModal isOpen={isSettingsOpen} onClose={closeSettings} />
+      <HelpModal isOpen={isHelpOpen} onClose={closeHelp} />
     </div>
   );
 };

@@ -47,7 +47,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = false }
         onKeyDown={handleKeyDown}
         placeholder="Type your message..."
         disabled={disabled}
-        className="w-full py-3 px-4 pr-12 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none"
+        className="w-full py-3 px-4 pr-12 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
         style={{ minHeight: '44px', maxHeight: '200px' }}
       />
       <button
@@ -55,8 +55,8 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = false }
         disabled={!message.trim() || disabled}
         className={`absolute right-2 p-1 rounded-md ${
           !message.trim() || disabled
-            ? 'text-gray-400 cursor-not-allowed'
-            : 'text-emerald-500 hover:bg-emerald-50'
+            ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed'
+            : 'text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900 dark:hover:bg-opacity-30'
         }`}
       >
         <svg
