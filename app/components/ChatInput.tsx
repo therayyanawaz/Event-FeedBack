@@ -1,4 +1,4 @@
-import React, { useState, KeyboardEvent } from 'react';
+import React, { useState, KeyboardEvent, useRef, useEffect } from 'react';
 
 type ChatInputProps = {
   onSendMessage: (message: string) => void;
@@ -7,11 +7,26 @@ type ChatInputProps = {
 
 const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = false }) => {
   const [message, setMessage] = useState<string>('');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Maintain focus after sending message or component re-renders
+  useEffect(() => {
+    if (!disabled && textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, [disabled]);
 
   const handleSend = () => {
     if (message.trim() && !disabled) {
       onSendMessage(message.trim());
       setMessage('');
+      
+      // Focus back on textarea after sending
+      setTimeout(() => {
+        if (textareaRef.current) {
+          textareaRef.current.focus();
+        }
+      }, 10);
     }
   };
 
@@ -25,6 +40,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = false }
   return (
     <div className="relative flex items-center max-w-3xl mx-auto">
       <textarea
+        ref={textareaRef}
         rows={1}
         value={message}
         onChange={(e) => setMessage(e.target.value)}
