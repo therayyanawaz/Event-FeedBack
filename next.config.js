@@ -7,7 +7,7 @@ const nextConfig = {
   },
   env: {
     MONGODB_URI: process.env.MONGODB_URI,
-    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+    GROQ_API_KEY: process.env.GROQ_API_KEY,
   },
   experimental: {
     serverComponentsExternalPackages: ['mongoose'],
