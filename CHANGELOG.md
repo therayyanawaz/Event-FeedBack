@@ -5,6 +5,12 @@ All notable changes to the Event-FeedBack project will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.3] - 2025-04-06
+
+### Fixed
+- Corrected the runtime specification in `vercel.json` to use the proper format (@vercel/node@2.15.3)
+- Fixed Function Runtime error during Vercel deployment
+
 ## [1.5.2] - 2025-04-06
 
 ### Added

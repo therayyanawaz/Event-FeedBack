@@ -1,6 +1,6 @@
 {
   "name": "event-feedback",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "A conversational AI chatbot for collecting and analyzing event feedback in real-time",
   "scripts": {
     "dev": "next dev",
