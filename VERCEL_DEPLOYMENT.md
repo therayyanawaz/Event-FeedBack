@@ -94,7 +94,7 @@ If you encounter any issues not covered by this guide, you can:
 
 1. Check the [Vercel documentation](https://vercel.com/docs).
 2. Post an issue on the [GitHub repository](https://github.com/therayyanawaz/event-feedBack/issues).
-3. Contact the developer at your-contact-email@example.com.
+3. Contact the developer at therayyanawaz@gmail.com.
 
 ---
 
