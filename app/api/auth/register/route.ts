@@ -1,3 +1,5 @@
+export const runtime = 'nodejs';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { userExists, createUser, generateToken, setAuthCookie } from '../../../utils/auth';
 

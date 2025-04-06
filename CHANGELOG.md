@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Corrected the runtime specification in `vercel.json` to use the proper format (@vercel/node@2.15.3)
 - Fixed Function Runtime error during Vercel deployment
+- Updated functions pattern in `vercel.json` to match the Next.js App Router API route structure 
+- Resolved "The pattern doesn't match any Serverless Functions" error
+- Added Node.js runtime directives to all nested API routes (login, register, logout)
 
 ## [1.5.2] - 2025-04-06
 

@@ -52,12 +52,18 @@ If you encounter issues with MongoDB connection:
 The project uses Node.js runtime for API routes to ensure compatibility with MongoDB/Mongoose. If you see errors about Edge Runtime:
 
 1. Check that all API routes have the `export const runtime = 'nodejs';` directive at the top.
-2. Ensure the `vercel.json` file is correctly configured with the proper Node.js runtime:
+2. Ensure the `vercel.json` file is correctly configured with the proper Node.js runtime and path patterns:
 
 ```json
 {
   "functions": {
-    "api/**/*": {
+    "app/api/*/route.ts": {
+      "runtime": "@vercel/node@2.15.3"
+    },
+    "app/api/*/*/route.ts": {
+      "runtime": "@vercel/node@2.15.3"
+    },
+    "app/api/*/*/*/route.ts": {
       "runtime": "@vercel/node@2.15.3"
     }
   }
@@ -65,6 +71,7 @@ The project uses Node.js runtime for API routes to ensure compatibility with Mon
 ```
 
 3. If you see the error "Function Runtimes must have a valid version", make sure to use the exact format `@vercel/node@x.x.x` rather than just `nodejs18.x`.
+4. If you see the error "The pattern doesn't match any Serverless Functions", ensure your function patterns match your project's file structure. For Next.js App Router, use patterns like `app/api/*/route.ts` instead of `api/**/*`.
 
 ### Missing Environment Variables
 
