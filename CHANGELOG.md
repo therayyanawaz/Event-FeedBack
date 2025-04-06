@@ -5,6 +5,21 @@ All notable changes to the Event-FeedBack project will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2025-04-06
+
+### Added
+- Netlify deployment support with `netlify.toml` configuration
+- Comprehensive Netlify deployment guide (NETLIFY_DEPLOYMENT.md)
+- Added @netlify/plugin-nextjs for optimized Next.js deployments
+
+### Changed
+- Migrated from Vercel to Netlify for deployments
+- Updated Next.js configuration for Netlify compatibility
+- Modified environment variables for Netlify
+
+### Removed
+- Removed Vercel-specific configuration files and deployment guide
+
 ## [1.5.5] - 2025-04-06
 
 ### Fixed

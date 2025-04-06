@@ -4,6 +4,13 @@ const nextConfig = {
   swcMinify: true,
   images: {
     domains: ['localhost'],
+    // Add Netlify image optimization domains
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*.netlify.app',
+      },
+    ],
   },
   // Disable Edge Runtime completely for the entire application
   experimental: {
@@ -27,10 +34,12 @@ const nextConfig = {
     }
     return config;
   },
-  // Force all API routes to use Node.js runtime
+  // Use Node.js as the default runtime
   serverRuntimeConfig: {
     PROJECT_ROOT: __dirname,
   },
+  // Add this for compatibility with Netlify
+  output: 'standalone',
 }
 
 module.exports = nextConfig 

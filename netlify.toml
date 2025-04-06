@@ -1,0 +1,18 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NEXT_RUNTIME = "nodejs"
+
+# Redirects for Next.js
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/nextjs/:splat"
+  status = 200
+
+# MongoDB functions should use Node.js runtime
+[[functions]]
+  directory = "app/api"
+  node_bundler = "esbuild" 

@@ -1,6 +1,6 @@
 {
   "name": "event-feedback",
-  "version": "1.5.5",
+  "version": "1.6.0",
   "description": "A conversational AI chatbot for collecting and analyzing event feedback in real-time",
   "scripts": {
     "dev": "next dev",
@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/therayyanawaz/Event-FeedBack#readme",
   "dependencies": {
+    "@netlify/plugin-nextjs": "^4.41.3",
     "axios": "^1.6.2",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.0",

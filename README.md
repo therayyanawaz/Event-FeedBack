@@ -68,10 +68,11 @@ npm run dev
 
 ### Deployment
 
-This project is optimized for deployment on Vercel. For detailed instructions on how to deploy this application to Vercel, please see the [Vercel Deployment Guide](VERCEL_DEPLOYMENT.md).
+This project is optimized for deployment on Netlify. For detailed instructions on how to deploy this application to Netlify, please see the [Netlify Deployment Guide](NETLIFY_DEPLOYMENT.md).
 
 Key deployment features:
-- Optimized for serverless functions
+- Configured with netlify.toml for optimal Next.js deployment
+- Optimized for Netlify Functions
 - Proper runtime configuration for MongoDB compatibility
 - Detailed environment variable setup instructions
 - Troubleshooting tips for common deployment issues
