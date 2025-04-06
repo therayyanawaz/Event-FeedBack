@@ -10,6 +10,9 @@
   "functions": {
     "app/api/**/*": {
       "runtime": "@vercel/node@2.15.3"
+    },
+    "api/**": {
+      "runtime": "@vercel/node@2.15.3"
     }
   }
 } 

@@ -5,8 +5,14 @@ const nextConfig = {
   images: {
     domains: ['localhost'],
   },
+  // Disable Edge Runtime completely for the entire application
   experimental: {
     serverComponentsExternalPackages: ['mongoose'],
+    esmExternals: 'loose',
+    disableOptimizedLoading: true,
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
@@ -20,6 +26,10 @@ const nextConfig = {
       };
     }
     return config;
+  },
+  // Force all API routes to use Node.js runtime
+  serverRuntimeConfig: {
+    PROJECT_ROOT: __dirname,
   },
 }
 

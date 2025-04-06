@@ -1,7 +1,7 @@
 export const runtime = 'nodejs';
 
-import mongoose from 'mongoose';
-import getModel from '../utils/modelFactory';
+import type { Document, Model, Schema as SchemaType } from 'mongoose';
+import { getMongoose } from '../utils/database';
 
 // Define the structure for feedback responses
 export interface IFeedbackResponse {
@@ -25,7 +25,7 @@ export interface IConversationMessage {
 }
 
 // Interface for feedback document
-export interface IFeedback extends mongoose.Document {
+export interface IFeedback extends Document {
   eventId: string;
   conversationId: string;
   userId?: string;
@@ -44,37 +44,71 @@ export interface IFeedback extends mongoose.Document {
   updatedAt: Date;
 }
 
-// Schema definition
-const FeedbackSchema = new mongoose.Schema(
-  {
-    eventId: { type: String, required: true },
-    conversationId: { type: String, required: true, unique: true },
-    userId: { type: String },
-    messages: [
-      {
-        role: { type: String, required: true, enum: ['system', 'user', 'assistant'] },
-        content: { type: String, required: true },
-        timestamp: { type: Date, default: Date.now }
-      }
-    ],
-    responses: { type: Object, default: {} },
-    completed: { type: Boolean, default: false },
-    completedAt: { type: Date },
-    userAgent: { type: String },
-    ipAddress: { type: String },
-    sentimentScores: { type: Object }
-  },
-  { timestamps: true }
-);
+let FeedbackModel: Model<IFeedback> | null = null;
 
-// Indexes for efficient querying
-FeedbackSchema.index({ eventId: 1 });
-FeedbackSchema.index({ conversationId: 1 }, { unique: true });
-FeedbackSchema.index({ userId: 1 });
-FeedbackSchema.index({ completed: 1 });
-FeedbackSchema.index({ createdAt: 1 });
+// Function to get or create the Feedback model
+export async function getFeedbackModel(): Promise<Model<IFeedback>> {
+  if (FeedbackModel) return FeedbackModel;
+  
+  // Get mongoose instance
+  const mongoose = await getMongoose();
+  
+  // Schema definition
+  const FeedbackSchema = new mongoose.Schema(
+    {
+      eventId: { type: String, required: true },
+      conversationId: { type: String, required: true, unique: true },
+      userId: { type: String },
+      messages: [
+        {
+          role: { type: String, required: true, enum: ['system', 'user', 'assistant'] },
+          content: { type: String, required: true },
+          timestamp: { type: Date, default: Date.now }
+        }
+      ],
+      responses: { type: Object, default: {} },
+      completed: { type: Boolean, default: false },
+      completedAt: { type: Date },
+      userAgent: { type: String },
+      ipAddress: { type: String },
+      sentimentScores: { type: Object }
+    },
+    { timestamps: true }
+  );
 
-// Get the appropriate model (real or mock)
-export const Feedback = getModel('Feedback', FeedbackSchema) as mongoose.Model<IFeedback>;
+  // Indexes for efficient querying
+  FeedbackSchema.index({ eventId: 1 });
+  FeedbackSchema.index({ conversationId: 1 }, { unique: true });
+  FeedbackSchema.index({ userId: 1 });
+  FeedbackSchema.index({ completed: 1 });
+  FeedbackSchema.index({ createdAt: 1 });
 
+  // Create the model
+  FeedbackModel = mongoose.models && mongoose.models.Feedback
+    ? (mongoose.models.Feedback as Model<IFeedback>)
+    : mongoose.model<IFeedback>('Feedback', FeedbackSchema);
+    
+  return FeedbackModel;
+}
+
+// Export a proxy object for backward compatibility
+const Feedback = new Proxy({} as Model<IFeedback>, {
+  get: function(target, prop) {
+    // Return a function that will resolve the model first
+    if (typeof prop === 'string' || typeof prop === 'symbol') {
+      return (...args: any[]) => {
+        return getFeedbackModel().then(model => {
+          const value = (model as any)[prop];
+          if (typeof value === 'function') {
+            return value.apply(model, args);
+          }
+          return value;
+        });
+      };
+    }
+    return undefined;
+  }
+});
+
+export { Feedback };
 export default Feedback; 

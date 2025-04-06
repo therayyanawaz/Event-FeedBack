@@ -11,6 +11,6 @@ export function middleware(request: NextRequest) {
 
 // Configure which paths should NOT use the Edge Runtime
 export const config = {
-  // Avoid using Edge runtime for API routes that use Mongoose
-  matcher: '/((?!api/.*|_next/static|_next/image|favicon.ico).*)',
+  // Only use Edge runtime for static assets and non-API routes
+  matcher: ['/((?!api|.*\\.(?:js|json|jsx|ts|tsx)).*)', '/'],
 }; 
