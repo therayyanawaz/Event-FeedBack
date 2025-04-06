@@ -1,3 +1,5 @@
+export const runtime = 'nodejs';
+
 /**
  * This file provides mock database functionality when MongoDB is not available
  */

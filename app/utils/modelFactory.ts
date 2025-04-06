@@ -1,3 +1,5 @@
+export const runtime = 'nodejs';
+
 import { isDatabaseConnected } from './database';
 import { createMockModel } from './mockDb';
 import mongoose from 'mongoose';

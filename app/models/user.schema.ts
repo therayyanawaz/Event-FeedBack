@@ -1,3 +1,5 @@
+export const runtime = 'nodejs';
+
 import mongoose, { Schema, Document } from 'mongoose';
 import crypto from 'crypto';
 

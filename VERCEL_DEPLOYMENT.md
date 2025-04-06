@@ -57,13 +57,7 @@ The project uses Node.js runtime for API routes to ensure compatibility with Mon
 ```json
 {
   "functions": {
-    "app/api/*/route.ts": {
-      "runtime": "@vercel/node@2.15.3"
-    },
-    "app/api/*/*/route.ts": {
-      "runtime": "@vercel/node@2.15.3"
-    },
-    "app/api/*/*/*/route.ts": {
+    "api/**": {
       "runtime": "@vercel/node@2.15.3"
     }
   }

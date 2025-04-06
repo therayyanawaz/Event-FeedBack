@@ -5,6 +5,14 @@ All notable changes to the Event-FeedBack project will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.4] - 2025-04-06
+
+### Fixed
+- Added Node.js runtime directives to all model schema files and utility files that use Mongoose
+- Updated function pattern in `vercel.json` to target compiled output paths rather than source paths
+- Fixed "Dynamic Code Evaluation not allowed in Edge Runtime" error with Mongoose
+- Ensured all files using MongoDB/Mongoose explicitly use Node.js runtime
+
 ## [1.5.3] - 2025-04-06
 
 ### Fixed

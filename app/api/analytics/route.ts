@@ -1,3 +1,5 @@
+export const runtime = 'nodejs';
+
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '../../utils/database';
 import Feedback from '../../models/feedback.schema';
