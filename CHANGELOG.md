@@ -5,6 +5,36 @@ All notable changes to the Event-FeedBack project will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.2] - 2025-04-06
+
+### Added
+- New `vercel.json` configuration file for optimized Vercel deployments
+- Comprehensive Vercel deployment guide (VERCEL_DEPLOYMENT.md)
+- Runtime directives to API routes to ensure Node.js runtime usage
+
+### Changed
+- Simplified MongoDB connection handling for better serverless compatibility
+- Updated Next.js configuration to remove environment variables from code
+- Updated package dependencies to their latest versions
+- Modified middleware to avoid Edge Runtime for MongoDB-dependent routes
+
+### Fixed
+- Edge Runtime compatibility issues with Mongoose
+- Missing environment variables errors during build
+- Deprecated packages warnings
+
+## [1.5.1] - 2025-04-03
+
+### Added
+- Detailed changelog documenting project evolution
+- More comprehensive error messages for users
+- Local storage for user preferences
+
+### Fixed
+- Minor UI issues in dark mode
+- Improved loading states and error indicators
+- Better handling of API rate limiting 
+
 ## [1.0.0] - 2024-09-28
 
 ### Added
@@ -91,15 +121,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Input focus issue in chat that required repeated clicking
 - MongoDB connection error handling
 - API fallback mechanisms for better offline support
-
-## [1.5.1] - 2025-04-03
-
-### Added
-- Detailed changelog documenting project evolution
-- More comprehensive error messages for users
-- Local storage for user preferences
-
-### Fixed
-- Minor UI issues in dark mode
-- Improved loading states and error indicators
-- Better handling of API rate limiting 

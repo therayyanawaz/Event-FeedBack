@@ -1,0 +1,15 @@
+{
+  "buildCommand": "next build",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "regions": ["iad1"],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "functions": {
+    "api/**/*": {
+      "runtime": "nodejs18.x"
+    }
+  }
+} 

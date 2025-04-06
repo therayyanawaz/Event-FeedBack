@@ -5,10 +5,6 @@ const nextConfig = {
   images: {
     domains: ['localhost'],
   },
-  env: {
-    MONGODB_URI: process.env.MONGODB_URI,
-    GROQ_API_KEY: process.env.GROQ_API_KEY,
-  },
   experimental: {
     serverComponentsExternalPackages: ['mongoose'],
   },
