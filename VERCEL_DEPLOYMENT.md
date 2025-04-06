@@ -57,7 +57,7 @@ The project uses Node.js runtime for API routes to ensure compatibility with Mon
 ```json
 {
   "functions": {
-    "api/**": {
+    "app/api/**/*": {
       "runtime": "@vercel/node@2.15.3"
     }
   }
@@ -65,7 +65,7 @@ The project uses Node.js runtime for API routes to ensure compatibility with Mon
 ```
 
 3. If you see the error "Function Runtimes must have a valid version", make sure to use the exact format `@vercel/node@x.x.x` rather than just `nodejs18.x`.
-4. If you see the error "The pattern doesn't match any Serverless Functions", ensure your function patterns match your project's file structure. For Next.js App Router, use patterns like `app/api/*/route.ts` instead of `api/**/*`.
+4. If you see the error "The pattern doesn't match any Serverless Functions", ensure your function patterns match your project's file structure. For Next.js App Router, use `app/api/**/*` to match all API routes and their nested routes.
 
 ### Missing Environment Variables
 
